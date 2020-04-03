@@ -1,3 +1,6 @@
+.PHONY: all
+all: usa uk
+
 usa:
 	echo "add instructions"
 
