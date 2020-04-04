@@ -1,9 +1,13 @@
 .PHONY: all
-all: usa uk
+all: usa uk belgium italy
 
 usa:
-	echo "add instructions"
-
+	./fetch_USA.sh
 uk:
 	./fetch_UK.sh
 
+belgium:
+	./fetch_Belgium.sh
+
+italy:
+	./fetch_Italy.sh
