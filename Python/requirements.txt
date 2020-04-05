@@ -1,5 +1,13 @@
 PyYAML
-pandas numpy
+pandas 
+numpy
 scipy
 statsmodels
 datetime
+tqdm
+fitz
+matplotlib
+PyMuPDF
+fiona
+geopandas
+descartes

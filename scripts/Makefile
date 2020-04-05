@@ -1,6 +1,9 @@
 .PHONY: all
 all: usa uk belgium italy google_mobility
 
+ecdc:
+	cd ..;Rscript data/fetch-ecdc.R
+
 usa:
 	./fetch_USA.sh
 uk:
@@ -15,4 +18,4 @@ italy:
 google_mobility:
 	./fetch_GoogleMobility.sh
 	cp parse_google_pdfs.py ../data/GoogleMobility
-	# python ../data/GoogleMobility/parse_google_pdfs.py
+	cd ..;python scripts/parse_google_pdfs.py
