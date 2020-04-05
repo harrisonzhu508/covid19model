@@ -1,5 +1,5 @@
 .PHONY: all
-all: usa uk belgium italy
+all: usa uk belgium italy google_mobility
 
 usa:
 	./fetch_USA.sh
@@ -11,3 +11,8 @@ belgium:
 
 italy:
 	./fetch_Italy.sh
+
+google_mobility:
+	./fetch_GoogleMobility.sh
+	cp parse_google_pdfs.py ../data/GoogleMobility
+	# python ../data/GoogleMobility/parse_google_pdfs.py
