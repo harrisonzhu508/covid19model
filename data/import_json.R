@@ -1,4 +1,5 @@
 library(RJSONIO)
+library(tibble)
 
 eu_countries_11 <- c(
   "DK", # Denmark
@@ -28,7 +29,7 @@ json_to_timeseries <- function(i, countries, states) {
   time_series <- as.data.frame(do.call(rbind, json[4:46]))
   names(time_series) <- json[[3]]
   
-  time_series <- rownames_to_column(time_series, var = "date")
+  time_series <- tibble::rownames_to_column(time_series, var = "date")
   time_series$date <- as.Date(time_series$date)
   
   list(country = country, state = state, data = time_series)
