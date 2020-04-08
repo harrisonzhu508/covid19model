@@ -1,5 +1,5 @@
 .PHONY: all
-all: usa uk belgium italy google_mobility
+all: usa uk belgium italy
 
 ecdc:
 	cd ..;Rscript data/fetch-ecdc.R
@@ -14,8 +14,8 @@ belgium:
 
 italy:
 	./fetch_Italy.sh
+	# source ../venv/bin/activate
+	cd ../data/Italy; python italy_prepare_regional_deaths.py
 
-google_mobility:
-	./fetch_GoogleMobility.sh
-	cp parse_google_pdfs.py ../data/GoogleMobility
-	cd ..;python scripts/parse_google_pdfs.py
+misc:
+	./fetch_misc.sh
