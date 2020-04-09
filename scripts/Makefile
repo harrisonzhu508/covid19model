@@ -15,7 +15,7 @@ belgium:
 italy:
 	./fetch_Italy.sh
 	# source ../venv/bin/activate
-	cd ../data/Italy; python italy_prepare_regional_deaths.py
+	cd ../data/Italy; python _process_data.py
 
 misc:
 	./fetch_misc.sh
