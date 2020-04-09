@@ -26,6 +26,7 @@ mobility_data.drop(mobility_data[mobility_data['county'] == "Trentino-South Tyro
 mobility_data.sort_values(by=['county', 'date'], inplace=True)
 
 mobility_data = mobility_data[['state', 'county', 'denominazione_regione','google_county','date','grocery/pharmacy','parks','residential','retail/recreation','transitstations','workplace']]
+mobility_data.fillna(method='ffill', inplace=True)
 
 mobility_data.reset_index().to_csv('google_mobility_covariates_processed.csv', index=False)
 
@@ -35,5 +36,15 @@ regional_medical_data.columns = ['state', 'county', 'google_county', 'denominazi
 regional_medical_data['date'] = pd.to_datetime(regional_medical_data['date'], format='%Y-%m-%d').dt.date
 
 regional_medical_data.sort_values(by=['county', 'date'], inplace=True)
+
+regional_medical_data['daily_deaths'] = regional_medical_data['deaths'].copy()
+regional_medical_data['daily_cases'] = regional_medical_data['total_positive_cases'].copy()
+
+for county in regional_medical_data.county.unique():
+    index = regional_medical_data[regional_medical_data['county'] == county].index
+
+    regional_medical_data.loc[index[1:], 'daily_deaths'] = regional_medical_data.loc[index[1:]]['deaths'].values - regional_medical_data.loc[index[:-1]]['deaths'].values
+    regional_medical_data.loc[index[1:], 'daily_cases'] = regional_medical_data.loc[index[1:]]['total_positive_cases'].values - regional_medical_data.loc[index[:-1]]['total_positive_cases'].values
+    
 
 regional_medical_data.reset_index().to_csv('regional_medical_data_processed.csv', index=False)
