@@ -11,3 +11,4 @@ PyMuPDF
 fiona
 geopandas
 descartes
+pymc3
