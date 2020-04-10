@@ -3,9 +3,9 @@ import json
 import yaml
 import pandas as pd
 import numpy as np
-from util import poly, dt_to_dec
 from scipy.stats import gamma as gamma_scipy
 from numpy.random import gamma as gamma_np
+from src.util import dt_to_dec
 from statsmodels.distributions.empirical_distribution import ECDF
 from tqdm import tqdm
 
@@ -172,9 +172,9 @@ class HierarchicalCountyDataset:
         # to make this work with test data as indicated in the notebook Test-counties, just change line 136 from 
         #for county_num, county in tqdm(enumerate(self.counties)):
         #to for county_num, county in tqdm(enumerate(self.counties[:1])):
+        ifr = self.ifr["weighted_fatality"][(self.ifr.iloc[:, 1:2] == self.country).index] # [self.ifr["county"] == county]
 
         for county_num, county in tqdm(enumerate(self.counties)):
-            ifr = self.ifr["weighted_fatality"] # [self.ifr["county"] == county]
             cases = self.cases[self.cases["county"] == county]
             cases["date"] = cases["date"].apply(pd.to_datetime, format="%d-%m-%Y")
 
@@ -322,9 +322,6 @@ class HierarchicalCountyDataset:
         stan_data["deaths"] = stan_data["deaths"].astype(int)
         return stan_data
 
-
-test = HierarchicalCountyDataset().get_stan_data(N2 = 75)
-
 class NpEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, np.integer):
@@ -338,8 +335,10 @@ class NpEncoder(json.JSONEncoder):
         else:
             return super(NpEncoder, self).default(obj)
 
-for k in test:
-    print(k, type(test[k]))
+if __name__ == "__main__":
+    test = HierarchicalCountyDataset().get_stan_data(N2 = 75)
+    for k in test:
+        print(k, type(test[k]))
 
-with open('/Python/src/test.json', 'w') as file:
-    json.dump(test, file, cls=NpEncoder, sort_keys=True)
+    with open('Python/src/test.json', 'w') as file:
+        json.dump(test, file, cls=NpEncoder, sort_keys=True)
