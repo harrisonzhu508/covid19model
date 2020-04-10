@@ -92,7 +92,7 @@ mobility_data = mobility_data[['state', 'county', 'denominazione_regione','googl
 
 # remove data past the end of the medical data
 mobility_data = mobility_data.reset_index(drop=True)
-# mobility_data.drop(mobility_data[mobility_data['date'] > max_medical_date].index, inplace=True)
+mobility_data.drop(mobility_data[mobility_data['date'] > max_medical_date].index, inplace=True)
 
 mobility_data = mobility_data[['state', 'county', 'denominazione_regione','google_county','date','grocery/pharmacy','parks','residential','retail/recreation','transitstations','workplace']]
 mobility_data.fillna(method='ffill', inplace=True)
