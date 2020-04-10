@@ -38,7 +38,6 @@ data {
     matrix[N2, M] x3;
     matrix[N2, M] x4;
     matrix[N2, M] x5;
-    matrix[N2, M] x6;
     int EpidemicStart[M];
     real SI[N2]; // fixed pre-calculated SI using emprical data from Neil
 }
@@ -67,8 +66,6 @@ parameters {
     real<lower=0> scale_factor_4;
     real<lower=0> length_scale_5;
     real<lower=0> scale_factor_5;
-    real<lower=0> length_scale_6;
-    real<lower=0> scale_factor_6;
 
     vector[N2] eta;
 }
@@ -104,8 +101,7 @@ transformed parameters {
             + cov_exp_quad(to_array_1d(x2[, m]), scale_factor_2, length_scale_2)
             + cov_exp_quad(to_array_1d(x3[, m]), scale_factor_3, length_scale_3)
             + cov_exp_quad(to_array_1d(x4[, m]), scale_factor_4, length_scale_4)
-            + cov_exp_quad(to_array_1d(x5[, m]), scale_factor_5, length_scale_5)
-            + cov_exp_quad(to_array_1d(x6[, m]), scale_factor_6, length_scale_6);
+            + cov_exp_quad(to_array_1d(x5[, m]), scale_factor_5, length_scale_5);
         L = cholesky_decompose(K);
         exp_gp = exp(L * eta);
         for (n in 1:(N2)) {
@@ -153,8 +149,6 @@ model {
     length_scale_4 ~ std_normal();
     scale_factor_5 ~ std_normal();
     length_scale_5 ~ std_normal();
-    scale_factor_6 ~ std_normal();
-    length_scale_6 ~ std_normal();
 
     for(m in 1:M) {
         deaths[EpidemicStart[m]:N[m], m] ~ neg_binomial_2(
