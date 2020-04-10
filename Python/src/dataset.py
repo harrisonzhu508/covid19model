@@ -1,7 +1,7 @@
 import yaml
 import pandas as pd
 import numpy as np
-from src.util import poly, dt_to_dec
+from util import poly, dt_to_dec
 from scipy.stats import gamma as gamma_scipy
 from numpy.random import gamma as gamma_np
 from statsmodels.distributions.empirical_distribution import ECDF
