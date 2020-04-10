@@ -204,10 +204,9 @@ class HierarchicalCountyDataset:
 
 
             # TODO: HERE HARRISON
-            if index_2 < 0: 
-                index_2 = 0
-                print(f'Clipping date range for {county}')
-                
+            if index_2 < 0:
+                raise AssertionError(f'Not enough data before start of outbreak for {county}. Consider extending the data')
+
             date_2 = cases["t"][index_2]
             index_2_covariates = covariates[covariates["t"] == date_2].index[0]
 
@@ -237,7 +236,7 @@ class HierarchicalCountyDataset:
             forecast = N2 - N
 
             if forecast < 0:
-                raise ValueError("Increase N2 to make it work. N2=N, forecast=N2-N")
+                raise ValueError(f"Increase N2 to make it work. N2=N, forecast=N2-N. N2={N2}, N={N}")
 
             # discrete hazard rate from time t=0,...,99
             h = np.zeros(forecast + N)
@@ -324,7 +323,7 @@ class HierarchicalCountyDataset:
         return stan_data
 
 
-test = HierarchicalCountyDataset().get_stan_data(N2 = 60)
+test = HierarchicalCountyDataset().get_stan_data(N2 = 75)
 
 class NpEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -342,5 +341,5 @@ class NpEncoder(json.JSONEncoder):
 for k in test:
     print(k, type(test[k]))
 
-with open('test.json', 'w') as file:
+with open('/Python/src/test.json', 'w') as file:
     json.dump(test, file, cls=NpEncoder, sort_keys=True)
