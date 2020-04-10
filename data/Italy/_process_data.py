@@ -79,7 +79,7 @@ for county in mobility_data.county.unique():
     # add 3 weeks repeated to the end
     prev_week = mobility_data[
             (mobility_data['county'] == county) &
-            (mobility_data['date'].isin(last_week))
+            (mobility_data['date'].isin([pd.Timestamp(d).date() for d in last_week]))
         ]
     for i in range(1,4):
         next_week = prev_week.copy()
@@ -92,7 +92,7 @@ mobility_data = mobility_data[['state', 'county', 'denominazione_regione','googl
 
 # remove data past the end of the medical data
 mobility_data = mobility_data.reset_index(drop=True)
-mobility_data.drop(mobility_data[mobility_data['date'] > max_medical_date].index, inplace=True)
+# mobility_data.drop(mobility_data[mobility_data['date'] > max_medical_date].index, inplace=True)
 
 mobility_data = mobility_data[['state', 'county', 'denominazione_regione','google_county','date','grocery/pharmacy','parks','residential','retail/recreation','transitstations','workplace']]
 mobility_data.fillna(method='ffill', inplace=True)
